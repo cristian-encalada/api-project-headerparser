@@ -5,7 +5,7 @@
 require('dotenv').config();
 var express = require('express');
 var app = express();
-
+const PORT = 3030;
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
 var cors = require('cors');
@@ -24,7 +24,20 @@ app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
+// whoami endpoint
+app.get('/api/whoami', function (req, res) {
+  // only ip is an standard property in the Express request object
+  const ipAddress = req.ip;
+  const language = req.headers['accept-language'];
+  const software = req.headers['user-agent'];
+  res.json({
+    ipadress : ipAddress,
+    language: language,
+    software: software
+  });
+});
+
 // listen for requests :)
-var listener = app.listen(process.env.PORT || 3000, function () {
+var listener = app.listen(PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
