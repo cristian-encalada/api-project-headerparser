@@ -14,6 +14,7 @@ app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 2
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+app.set('trust proxy', true)
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
@@ -26,14 +27,10 @@ app.get('/api/hello', function (req, res) {
 
 // whoami endpoint
 app.get('/api/whoami', function (req, res) {
-  // only ip is an standard property in the Express request object
-  const ipAddress = req.ip;
-  const language = req.headers['accept-language'];
-  const software = req.headers['user-agent'];
   res.json({
-    ipadress : ipAddress,
-    language: language,
-    software: software
+    ipadress : req.socket.remoteAddress,
+    language: req.headers['accept-language'],
+    software: req.headers['user-agent']
   });
 });
 
