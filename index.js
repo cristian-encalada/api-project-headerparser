@@ -28,7 +28,7 @@ app.get('/api/hello', function (req, res) {
 // whoami endpoint
 app.get('/api/whoami', function (req, res) {
   res.json({
-    ipadress : req.socket.remoteAddress,
+    ipadress : req.headers['x-forwarded-for'] || req.socket.remoteAddress,
     language: req.headers['accept-language'],
     software: req.headers['user-agent']
   });
